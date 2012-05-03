@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import net.vikasta.fontana.core.PygmyMgr;
+import net.vikasta.fontana.core.FontanaMgr;
 import static org.junit.Assert.*;
 
 /**
@@ -46,7 +46,7 @@ public class PygmyMgrTest {
     public void testMain() {
         System.out.println("main");
         String[] args = null;
-        PygmyMgr.main(args);
+        FontanaMgr.main(args);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

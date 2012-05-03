@@ -17,49 +17,62 @@ import net.vikasta.fontana.common.*;
  */
 public class MessageBus implements IMessageBus {
 
-    private Hashtable<Pair<InetAddress, String>, IMessageBusClient> clientRegistry = new Hashtable<Pair<InetAddress, String>, IMessageBusClient>();
+	public class MessageBusClientID {
+		public final InetAddress systemIP;
+		public final String UID;
+		
+		public MessageBusClientID(InetAddress systemIP, String UID)
+		{
+			this.systemIP = systemIP;
+			this.UID = UID;
+		}
+
+	}
+	
+    private Hashtable<MessageBusClientID, IMessageBusClient> clientRegistry = new Hashtable<MessageBusClientID, IMessageBusClient>();
     private SecureRandom secureRandom = new SecureRandom();
 
     public void register(InetAddress IP, String clientID, IMessageBusClient callback) throws DuplicateCallbackIDException
     {
 
-        if(clientRegistry.put(new Pair<InetAddress, String>(IP, clientID), callback) != null)
+        if(clientRegistry.put(new MessageBusClientID(IP, clientID), callback) != null)
             throw new DuplicateCallbackIDException();
     }
 
     public void deregister(InetAddress IP, String clientID)
     {
-        clientRegistry.remove(new Pair<InetAddress, String>(IP, clientID));
+        clientRegistry.remove(new MessageBusClientID(IP, clientID));
     
     }
     
-    public void sendMessageInLosslessChannel(MessageBusMsg msg) throws InvalidSourceException, InvalidReceiverException
+    public void sendMessageInLosslessChannel(MessageBusMsg msg, IMessageBusClient sender, Object senderState) throws InvalidSourceException, InvalidReceiverException
     {
-        getReceivingClient(msg).messageReceivedCallback(msg);
+        getReceiver(msg).notifyMessageReceived(msg);
 
-        IMessageBusClient client = clientRegistry.get(new Pair<InetAddress, String>(msg.sourceIP, msg.senderComponentID));
+        IMessageBusClient client = clientRegistry.get(new MessageBusClientID(msg.sourceIP, msg.senderComponentID));
         client.notifyLoslessSendAckReceived();
         
     }
 
-    public void sendMessageInLossyChannel(MessageBusMsg msg) throws InvalidSourceException, InvalidReceiverException
+    public void sendMessageInLossyChannel(MessageBusMsg msg, IMessageBusClient sender, Object senderState) throws InvalidSourceException, InvalidReceiverException
     {
         if(secureRandom.nextInt(255)<150)
             return;
 
-        getReceivingClient(msg).messageReceivedCallback(msg);
+        getReceiver(msg).notifyMessageReceived(msg);
+        
 
     }
 
-    private IMessageBusClient getReceivingClient(MessageBusMsg msg) throws InvalidSourceException, InvalidReceiverException
+    private IMessageBusClient getReceiver(MessageBusMsg msg) throws InvalidSourceException, InvalidReceiverException
     {
-        if(clientRegistry.get(new Pair<InetAddress, String>(msg.sourceIP, msg.senderComponentID)) == null)
+        if(clientRegistry.get(new MessageBusClientID(msg.sourceIP, msg.senderComponentID)) == null)
         {
             assert(false);
             throw new InvalidSourceException();
         }
 
-        IMessageBusClient receiver = clientRegistry.get(new Pair<InetAddress, String>(msg.destinationIP, msg.receiverComponentID));
+        IMessageBusClient receiver = clientRegistry.get(new MessageBusClientID(msg.destinationIP, msg.receiverComponentID));
         if(receiver == null)
         {
             assert(false);

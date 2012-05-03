@@ -60,7 +60,7 @@ public class MockStreamingExactKeyOverlay<Data> implements IOverlayBootstrapDisc
     {
 
     }
-    public void messageReceivedCallback(MessageBusMsg msg)
+    public void notifyMessageReceived(MessageBusMsg msg)
     {
         String[] tokens = msg.msg.split("\\r");
         String command = tokens[0];

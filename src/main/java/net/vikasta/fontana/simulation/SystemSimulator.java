@@ -199,7 +199,7 @@ public class SystemSimulator {
         }
 
     private int pygmyVirtualNodeCount = 1;
-    private PygmyMgr[] pygmyMgrList;
+    private FontanaMgr[] pygmyMgrList;
     private Dictionary<InetAddress, BlockingQueue<MessageBusMsg>> pygmyMgrRegistry = new Hashtable<InetAddress, BlockingQueue<MessageBusMsg>>();
 
 }
