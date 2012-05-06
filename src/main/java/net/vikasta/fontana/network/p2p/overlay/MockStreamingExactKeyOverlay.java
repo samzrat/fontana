@@ -14,6 +14,8 @@ import java.util.SortedMap;
 import java.util.UUID;
 
 import net.vikasta.fontana.common.IStreamConsumer;
+import net.vikasta.fontana.network.Address;
+import net.vikasta.fontana.network.IMessageBus.MsgDeliveryFailureReason;
 import net.vikasta.fontana.network.IMessageBusClient;
 import net.vikasta.fontana.network.MessageBus;
 import net.vikasta.fontana.network.MessageBusMsg;
@@ -164,6 +166,21 @@ public class MockStreamingExactKeyOverlay<Data> implements IOverlayBootstrapDisc
         return streamRegistry.get(key).get(streamPosition);
 
     }
+
+	@Override
+	public void msgDeliveryFailureCallback(
+			MsgDeliveryFailureReason msgDeliveryFailureReason,
+			Object clientState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void responseReceivedCallback(String reply,
+			Address responseSenderAddress, Object clientState) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

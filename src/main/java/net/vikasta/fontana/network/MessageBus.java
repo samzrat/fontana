@@ -44,25 +44,25 @@ public class MessageBus implements IMessageBus {
         clientRegistry.remove(new MessageBusClientID(IP, clientID));
     
     }
-    
-    public void sendMessageInLosslessChannel(MessageBusMsg msg, IMessageBusClient sender, Object senderState) throws InvalidSourceException, InvalidReceiverException
-    {
-        getReceiver(msg).notifyMessageReceived(msg);
-
-        IMessageBusClient client = clientRegistry.get(new MessageBusClientID(msg.sourceIP, msg.senderComponentID));
-        client.notifyLoslessSendAckReceived();
-        
-    }
-
-    public void sendMessageInLossyChannel(MessageBusMsg msg, IMessageBusClient sender, Object senderState) throws InvalidSourceException, InvalidReceiverException
-    {
-        if(secureRandom.nextInt(255)<150)
-            return;
-
-        getReceiver(msg).notifyMessageReceived(msg);
-        
-
-    }
+//    
+//    public void sendMessageInLosslessChannel(MessageBusMsg msg, IMessageBusClient sender, Object senderState) throws InvalidSourceException, InvalidReceiverException
+//    {
+//        getReceiver(msg).notifyMessageReceived(msg);
+//
+//        IMessageBusClient client = clientRegistry.get(new MessageBusClientID(msg.sourceIP, msg.senderComponentID));
+//        client.notifyLoslessSendAckReceived();
+//        
+//    }
+//
+//    public void sendMessageInLossyChannel(MessageBusMsg msg, IMessageBusClient sender, Object senderState) throws InvalidSourceException, InvalidReceiverException
+//    {
+//        if(secureRandom.nextInt(255)<150)
+//            return;
+//
+//        getReceiver(msg).notifyMessageReceived(msg);
+//        
+//
+//    }
 
     private IMessageBusClient getReceiver(MessageBusMsg msg) throws InvalidSourceException, InvalidReceiverException
     {
@@ -81,5 +81,85 @@ public class MessageBus implements IMessageBus {
         else
             return receiver;
     }
+
+	@Override
+	public void sendNotification(String notification, Address srcAddress,
+			Address destAddress, Channel channel, Object callbackClientState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendNotification(String notification, Address srcAddress,
+			Address destAddress, Channel channel, Object callbackClientState,
+			int timeout) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendRequest(String request, Address srcAddress,
+			Address destAddress, ResponseType responseType, Channel channel,
+			Object callbackClientState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendRequest(String request, Address srcAddress,
+			Address[] destAddress, Channel channel, ResponseType responseType,
+			Object callbackClientState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendRequest(String request, Address srcAddress,
+			Address destAddress, Channel channel, ResponseType responseType,
+			Object callbackClientState, int timeout) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendRequest(String request, Address srcAddress,
+			Address[] destAddress, Channel channel, ResponseType responseType,
+			Object callbackClientState, int timeout) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendRelayRequest(String request, Address originalSrcAddress,
+			Address relayerAddress, Address destAddress,
+			ResponseType responseType, Channel channel,
+			Object callbackClientState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendRelayRequest(String request, Address originalSrcAddress,
+			Address relayerAddress, Address[] destAddress, Channel channel,
+			ResponseType responseType, Object callbackClientState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendRelayRequest(String request, Address originalSrcAddress,
+			Address relayerAddress, Address destAddress, Channel channel,
+			ResponseType responseType, Object callbackClientState, int timeout) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendRelayRequest(String request, Address originalSrcAddress,
+			Address relayerAddress, Address[] destAddress, Channel channel,
+			ResponseType responseType, Object callbackClientState, int timeout) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
